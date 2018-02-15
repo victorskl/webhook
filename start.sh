@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
-source .venv/bin/activate
-python serve.py
+BASE=/home/deploy/webhook
+
+#source ${BASE}/.venv/bin/activate
+${BASE}/.venv/bin/python serve.py

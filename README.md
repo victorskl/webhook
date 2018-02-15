@@ -20,6 +20,7 @@ pip install -r requirements.txt
 
 python serve.py
 
+chmod +x start.sh
 cp webhook.service /etc/systemd/system
 systemctl enable webhook
 systemctl start webhook

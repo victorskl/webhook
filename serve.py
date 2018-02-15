@@ -10,8 +10,8 @@ BRANCH = 'develop'
 FLASK_DEBUG = False
 
 #
-#
-logging.basicConfig(level=logging.INFO)
+# https://docs.python.org/2/howto/logging.html
+logging.basicConfig(filename='/mnt/log/webhook.log', level=logging.INFO)
 
 app = Flask(__name__)
 
@@ -69,7 +69,8 @@ def webhook():
             cmd = shlex.split('bash ' + SCRIPT + ' ' + pr_commit)
             process = subprocess.Popen(cmd, cwd=working_dir, stdout=subprocess.PIPE)
             for c in iter(lambda: process.stdout.read(1), ''):
-                sys.stdout.write(c)
+                # sys.stdout.write(c)
+                logging.info(c)
 
         return "OK", 200
     else:
