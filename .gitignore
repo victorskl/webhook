@@ -1,0 +1,10 @@
+.DS_*
+.idea
+*.iml
+
+*.pyc
+
+.venv
+
+lock
+queue
