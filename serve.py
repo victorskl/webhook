@@ -19,9 +19,9 @@ app = Flask(__name__)
 def display_html(request):
     url_root = request.url_root
     return "".join([
-        """Webhook server online! """,
+        """Webhook endpoint is online! """,
         """Go to your repository webhook for """,
-        """<a href="%swebhook">%swebhook</a>""" % (url_root, url_root)
+        """<a href="%s.alpha/webhook">%s.alpha/webhook</a>""" % (url_root, url_root)
     ])
 
 
@@ -30,7 +30,12 @@ def index():
     return display_html(request)
 
 
-@app.route('/webhook', methods=['GET', 'POST'])
+@app.route('/.alpha', methods=['GET'])
+def alpha():
+    return display_html(request)
+
+
+@app.route('/.alpha/webhook', methods=['GET', 'POST'])
 def webhook():
 
     logging.debug('Request Type: ' + request.method)

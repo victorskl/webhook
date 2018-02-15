@@ -5,6 +5,7 @@
 *.pyc
 
 .venv
-
+log
+*.log
 lock
 queue

@@ -19,9 +19,23 @@ source .venv/bin/activate
 pip install -r requirements.txt
 
 python serve.py
+[ctrl+c]
+```
 
+Running as systemd service
+
+```
+cd /home/deploy
+git clone https://github.com/victorskl/webhook.git
+cd webhook
 chmod +x start.sh
+mkdir -p /mnt/log
+chown -R deploy:deploy /mnt/log
 cp webhook.service /etc/systemd/system
 systemctl enable webhook
 systemctl start webhook
+systemctl status webhook
+tail -f /mnt/log/webhook.log
+
+curl -X GET http://0.0.0.0:5000/.alpha/webhook
 ```
