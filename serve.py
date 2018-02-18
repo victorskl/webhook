@@ -1,17 +1,22 @@
-import logging, hashlib, hmac, subprocess, sys, os, shlex
+import logging, hashlib, hmac, subprocess, sys, os, shlex, json
 from flask import Flask, request
 
 # Config
-SCRIPT = "pipeline.sh"
-SECRET = "hello"
-PORT = 5000
+__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
+
+with open(os.path.join(__location__, 'config.json')) as config_file:
+    config = json.load(config_file)
+
+SCRIPT = 'pipeline.sh'
+SECRET = config['secret']
+# PORT = 5000
 EVENT = 'pr:merged'
 BRANCH = 'develop'
 FLASK_DEBUG = False
 
 #
 # https://docs.python.org/2/howto/logging.html
-logging.basicConfig(filename='/mnt/log/webhook.log', level=logging.INFO)
+logging.basicConfig(filename='/mnt/log/webhook.log', level=logging.INFO, filemode='w')
 
 app = Flask(__name__)
 
@@ -37,7 +42,6 @@ def alpha():
 
 @app.route('/.alpha/webhook', methods=['GET', 'POST'])
 def webhook():
-
     logging.debug('Request Type: ' + request.method)
     logging.debug(request.headers)
 
@@ -86,4 +90,5 @@ def webhook():
 
 if __name__ == '__main__':
     logging.info('Webhook endpoint started...')
-    app.run(host="0.0.0.0", port=PORT, debug=FLASK_DEBUG)
+    # app.run(host="0.0.0.0", port=PORT, debug=FLASK_DEBUG)
+    app.run(debug=FLASK_DEBUG)

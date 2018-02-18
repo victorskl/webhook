@@ -18,6 +18,8 @@ source .venv/bin/activate
 
 pip install -r requirements.txt
 
+cp config.json.sample config.json
+
 python serve.py
 [ctrl+c]
 ```

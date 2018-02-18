@@ -3,7 +3,7 @@
 *.iml
 .env
 *.pyc
-
+config.json
 .venv
 log
 *.log
