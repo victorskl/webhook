@@ -2,16 +2,18 @@
 
 COMMIT_POINT=$1
 
+MY_BASE=/home/deploy/webhook
+
 function deploy() {
     echo "Starting deployment pipeline... " ${COMMIT_POINT}
 
-    pwd
-    tree -L 2 .
-    git status
-
     # example build/deployment simulation
-    sleep 30
+    #sleep 30
+    
+    bash /cogtale/repos/deploy.sh > /mnt/log/deploy.log 2>&1
 
+    cd $MY_BASE
+    pwd
     echo "Deployment completed for " ${COMMIT_POINT}
 
     check_queue

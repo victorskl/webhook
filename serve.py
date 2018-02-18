@@ -3,7 +3,7 @@ from flask import Flask, request
 
 # Config
 SCRIPT = "pipeline.sh"
-SECRET = 'hello'
+SECRET = "hello"
 PORT = 5000
 EVENT = 'pr:merged'
 BRANCH = 'develop'
@@ -72,10 +72,12 @@ def webhook():
             working_dir = os.path.dirname(os.path.realpath(__file__))
             logging.debug('working_dir: ' + working_dir)
             cmd = shlex.split('bash ' + SCRIPT + ' ' + pr_commit)
-            process = subprocess.Popen(cmd, cwd=working_dir, stdout=subprocess.PIPE)
-            for c in iter(lambda: process.stdout.read(1), ''):
-                # sys.stdout.write(c)
-                logging.info(c)
+            process = subprocess.Popen(cmd, cwd=working_dir, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            out, err = process.communicate()
+            if out:
+                logging.info(out)
+            if err:
+                logging.error(err)
 
         return "OK", 200
     else:
